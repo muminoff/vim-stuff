@@ -301,6 +301,7 @@ map <leader>T :call RunTestFileAsSudo()<cr>
 map <leader>a :call RunTests('')<cr>
 map <leader>c :w\|:!script/features<cr>
 map <leader>w :w\|:!script/features --profile wip<cr>
+map <leader>ss :call CheckSVNStatus()<cr>
 
 function! RunTestFile()
   :w
@@ -349,6 +350,20 @@ function! RunTests(filename)
             exec ":!rspec --color " . a:filename
         end
     end
+endfunction
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" SVN COMMANDS
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""'"""
+function! CheckSVNStatus()
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :!svn status
 endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
