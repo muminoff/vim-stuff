@@ -96,7 +96,7 @@ augroup END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 :set t_Co=256 " 256 colors
 :set background=dark
-:color xterm16
+:color grb256
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " STATUS LINE
@@ -248,15 +248,13 @@ function! ShowRoutes()
   :normal dd
 endfunction
 map <leader>gR :call ShowRoutes()<cr>
-map <leader>gv :CommandTFlush<cr>\|:CommandT app/view<cr>
-map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
-map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
-map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
+map <leader>gb :CommandTFlush<cr>\|:CommandT backend<cr>
+map <leader>gf :CommandTFlush<cr>\|:CommandT frontend<cr>
 map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
-map <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
-map <leader>gs :CommandTFlush<cr>\|:CommandT public/stylesheets/sass<cr>
-map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
-map <leader>gg :topleft 100 :split Gemfile<cr>
+map <leader>gc :CommandTFlush<cr>\|:CommandT /home/sardor/Testenv.ifs3/trunk<cr>
+map <leader>gj :CommandTFlush<cr>\|:CommandT frontend/js<cr>
+map <leader>gs :CommandTFlush<cr>\|:CommandT frontend/css<cr>
+map <leader>gg :topleft 100 :split README.txt<cr>
 map <leader>gt :CommandTFlush<cr>\|:CommandTTag<cr>
 map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
 map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
@@ -292,11 +290,37 @@ endfunction
 nnoremap <leader>. :call OpenTestAlternate()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" RUNNING SIMPLE HTTP SERVER IN CURRENT DIRECTORY
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! GlobalRun()
+  :w
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :!sudo python ./ifs3webclient -f
+endfunction
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" RUNNING SIMPLE HTTP SERVER IN CURRENT DIRECTORY
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! RunHTTPServer()
+  :w
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :!python -m SimpleHTTPServer
+endfunction
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RUNNING TESTS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" map <leader>t :w\|:!python %:p<cr>
 map <leader>t :call RunTestFile()<cr>
-" map <leader>T :w\|:!sudo python %:p -f<cr>
 map <leader>T :call RunTestFileAsSudo()<cr>
 map <leader>a :call RunTests('')<cr>
 map <leader>c :w\|:!script/features<cr>
@@ -304,6 +328,8 @@ map <leader>w :w\|:!script/features --profile wip<cr>
 map <leader>ss :call CheckSVNStatus()<cr>
 map <leader>su :call UpdateSVNCode()<cr>
 map <leader>sc :call CommitSVNChanges()<cr>
+map <leader><F2> :call RunHTTPServer()<cr>
+map <leader>m :call GlobalRun()<cr>
 
 function! RunTestFile()
   :w
