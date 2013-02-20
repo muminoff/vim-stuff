@@ -454,3 +454,5 @@ inoremap <right> <nop>
 " highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 " match OverLength /\%81v.\+/
 nmap <F8> :TagbarToggle<CR>
+noremap <C-j> 10j<cr>
+noremap <C-k> 10k<cr>
