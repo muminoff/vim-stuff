@@ -99,6 +99,27 @@ augroup END
 :color grb256
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ADVANCED COLORS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" let python_highlight_all=1
+
+" " gui and terminal compatible color scheme
+" set t_Co=256
+" set background=dark
+" " set global variables that will define the colorscheme
+" let g:light_theme='solarized'
+" let g:dark_theme='solarized'
+
+" " Use the "original" molokai theme colors instead of "dark"
+" let g:molokai_original=1
+
+" " Zenburn settings
+" let g:zenburn_alternate_Error = 1
+
+" " Solarized settings
+" let g:solarized_termcolors=16
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " STATUS LINE
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 :set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
