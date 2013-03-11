@@ -89,8 +89,15 @@ augroup vimrcEx
   " to run commands there.
   autocmd! CmdwinEnter * :unmap <cr>
   autocmd! CmdwinLeave * :call MapCR()
-
+  
+  " Set syntax and highlight for template files same as html files
   au BufNewFile,BufRead *.tpl :set ft=html
+
+  " Reload browser on save 
+  " Very useful for web development, 
+  " comment bottom line if you don't need it :)
+  autocmd VimEnter,BufNewFile,BufReadpost,BufRead *.py,*.html,*.tpl,*.css,*.js silent! FirefoxReloadStart
+
 augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -99,27 +106,6 @@ augroup END
 :set t_Co=256 " 256 colors
 :set background=dark
 :color grb256
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" ADVANCED COLORS
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" let python_highlight_all=1
-
-" " gui and terminal compatible color scheme
-" set t_Co=256
-" set background=dark
-" " set global variables that will define the colorscheme
-" let g:light_theme='solarized'
-" let g:dark_theme='solarized'
-
-" " Use the "original" molokai theme colors instead of "dark"
-" let g:molokai_original=1
-
-" " Zenburn settings
-" let g:zenburn_alternate_Error = 1
-
-" " Solarized settings
-" let g:solarized_termcolors=16
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " STATUS LINE
