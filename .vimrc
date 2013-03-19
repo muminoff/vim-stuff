@@ -464,7 +464,7 @@ inoremap <left> <nop>
 vnoremap <right> <nop>
 vnoremap <left> <nop>
 inoremap <right> <nop>
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-match OverLength /\%81v.\+/
-noremap <C-j> 10j<cr>
-noremap <C-k> 10k<cr>
+" highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+" match OverLength /\%81v.\+/
+noremap <C-j> 15j<cr>
+noremap <C-k> 15k<cr>
