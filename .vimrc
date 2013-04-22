@@ -72,7 +72,10 @@ augroup vimrcEx
     \ endif
 
   "for ruby, autoindent with two spaces, always expand tabs
-  autocmd! BufRead,BufNewFile *.coffee setfiletype coffeescript 
+  autocmd! BufRead,BufNewFile *.coffee setlocal ft=coffeescript 
+  " autocmd! BufRead,BufNewFile *.js setlocal ft=js
+  " autocmd! FileType js :setlocal ai sw=2 ts=2 sts=2
+
   autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber,coffeescript set ai sw=2 sts=2 et
   autocmd FileType python set sw=4 sts=4 et
 
