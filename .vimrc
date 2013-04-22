@@ -34,7 +34,7 @@ set winwidth=79
 set shell=bash
 " Prevent Vim from clobbering the scrollback buffer. See
 " http://www.shallowsky.com/linux/noaltscreen.html
-set t_ti= t_te=
+" set t_ti= t_te=
 " keep more context when scrolling off the end of a buffer
 set scrolloff=3
 " Store temporary files in a central spot
@@ -72,7 +72,8 @@ augroup vimrcEx
     \ endif
 
   "for ruby, autoindent with two spaces, always expand tabs
-  autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
+  autocmd! BufRead,BufNewFile *.coffee setfiletype coffeescript 
+  autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber,coffeescript set ai sw=2 sts=2 et
   autocmd FileType python set sw=4 sts=4 et
 
   autocmd! BufRead,BufNewFile *.sass setfiletype sass 
@@ -93,7 +94,7 @@ augroup vimrcEx
   
   " Set syntax and highlight for template files same as html files
   au BufNewFile,BufRead *.tpl :set ft=html
-
+  
   " Reload browser on save 
   " Very useful for web development, 
   " comment bottom line if you don't need it :)
