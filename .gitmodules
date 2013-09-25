@@ -1,15 +1,6 @@
-[submodule ".vim/bundle/ack.vim"]
-	path = .vim/bundle/ack.vim
-	url = git://github.com/mileszs/ack.vim.git
 [submodule ".vim/bundle/Command-T"]
 	path = .vim/bundle/Command-T
 	url = git://github.com/wincent/Command-T.git
-[submodule ".vim/bundle/svndiff.vim"]
-	path = .vim/bundle/svndiff.vim
-	url = git://github.com/vim-scripts/svndiff.vim.git
-[submodule ".vim/bundle/vim-browser-reload-linux"]
-	path = .vim/bundle/vim-browser-reload-linux
-	url = git://github.com/lordm/vim-browser-reload-linux.git
 [submodule ".vim/bundle/vim-colors-solarized"]
 	path = .vim/bundle/vim-colors-solarized
 	url = git://github.com/altercation/vim-colors-solarized.git
@@ -19,9 +10,6 @@
 [submodule ".vim/bundle/vim-eunuch"]
 	path = .vim/bundle/vim-eunuch
 	url = git://github.com/tpope/vim-eunuch.git
-[submodule ".vim/bundle/vim-fugitive"]
-	path = .vim/bundle/vim-fugitive
-	url = git://github.com/tpope/vim-fugitive.git
 [submodule ".vim/autoload"]
 	path = .vim
 	url = git://github.com/tpope/vim-pathogen.git
@@ -31,3 +19,6 @@
 [submodule ".vim/bundle/vim-coffee-script"]
 	path = .vim/bundle/vim-coffee-script
 	url = git://github.com/kchmck/vim-coffee-script.git
+[submodule ".vim/bundle/vim-lightline"]
+	path = .vim/bundle/vim-lightline
+	url = git://github.com/ithyny/lightline.vim.git
