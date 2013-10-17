@@ -478,3 +478,10 @@ noremap <C-k> 15k<cr>
 inoremap {<cr> {<cr>}<c-o>O<tab>
 inoremap [<cr> [<cr>]<c-o>O<tab>
 inoremap (<cr> (<cr>)<c-o>O<tab>
+
+" Russian Keymap
+" http://habrahabr.ru/post/98393/
+set keymap=russian-jcukenwin
+set iminsert=0
+set imsearch=0
+highlight lCursor guifg=NONE guibg=Cyan
