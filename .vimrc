@@ -110,7 +110,7 @@ augroup END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 :set t_Co=256 " 256 colors
 :set background=dark
-:color Spacedust
+:color grb256
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " STATUS LINE
@@ -306,7 +306,7 @@ nnoremap <leader>. :call OpenTestAlternate()<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RUNNING SIMPLE HTTP SERVER IN CURRENT DIRECTORY
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! GlobalRun()
+function! RunDjango()
   :w
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
@@ -314,7 +314,7 @@ function! GlobalRun()
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :!sudo python ./ifs3webclient -f
+  :!python manage.py runserver 0.0.0.0:8000
 endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -343,7 +343,7 @@ map <leader>ss :call CheckSVNStatus()<cr>
 map <leader>su :call UpdateSVNCode()<cr>
 map <leader>sc :call CommitSVNChanges()<cr>
 map <leader><F2> :call RunHTTPServer()<cr>
-map <leader>m :call GlobalRun()<cr>
+map <leader>m :call RunDjango()<cr>
 
 function! RunTestFile()
   :w
