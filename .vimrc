@@ -76,7 +76,11 @@ augroup vimrcEx
   " autocmd! BufRead,BufNewFile *.js setlocal ft=js
   " autocmd! FileType js :setlocal ai sw=2 ts=2 sts=2
 
+<<<<<<< HEAD
   autocmd FileType ruby,haml,eruby,yaml,html,javascript,js,sass,cucumber,coffeescript set ai sw=2 sts=2 et
+=======
+  autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber,coffeescript set ai sw=2 sts=2 et
+>>>>>>> 12ea9842b79eb3482fb25c33342416eede464c78
   autocmd FileType python set sw=4 sts=4 et
 
   autocmd! BufRead,BufNewFile *.sass setfiletype sass 
@@ -304,7 +308,7 @@ endfunction
 nnoremap <leader>. :call OpenTestAlternate()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" RUNNING SIMPLE HTTP SERVER IN CURRENT DIRECTORY
+" RUNNING Django HTTP Server
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! DjangoRunserver()
   :w
@@ -341,9 +345,16 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RUNNING TESTS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+<<<<<<< HEAD
 map <leader>t :call DjangoTest()<cr>
 map <leader>s :call DjangoSyncDB()<cr>
 map <leader>r :call DjangoRunserver()<cr>
+=======
+map <leader>t :call DjangoTestRun()<cr>
+map <leader>T :call RunTestFileAsSudo()<cr>
+map <leader>s :call DjangoSyncDB()<cr>
+map <leader>r :call DjangoRunServer()<cr>
+>>>>>>> 12ea9842b79eb3482fb25c33342416eede464c78
 map <leader>c :w\|:!script/features<cr>
 map <leader>w :w\|:!script/features --profile wip<cr>
 map <leader>ss :call CheckSVNStatus()<cr>
@@ -352,7 +363,7 @@ map <leader>sc :call CommitSVNChanges()<cr>
 map <leader><F2> :call RunHTTPServer()<cr>
 map <leader>m :call RunDjango()<cr>
 
-function! RunTestFile()
+function! DjangoTestRun()
   :w
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
@@ -360,10 +371,10 @@ function! RunTestFile()
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :!python %:p
+  :!python manage.py test
 endfunction
 
-function! RunTestFileAsSudo()
+function! DjangoSyncDB()
   :w
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
@@ -371,7 +382,18 @@ function! RunTestFileAsSudo()
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :!sudo python %:p -f
+  :!python manage.py syncdb
+endfunction
+
+function! DjangoRunServer()
+  :w
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :!python manage.py runserver
 endfunction
 
 function! SetTestFile()
@@ -475,8 +497,8 @@ inoremap <left> <nop>
 vnoremap <right> <nop>
 vnoremap <left> <nop>
 inoremap <right> <nop>
-" highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-" match OverLength /\%81v.\+/
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
 noremap <C-j> 15j<cr>
 noremap <C-k> 15k<cr>
 " Mapping for JavaScript coding
