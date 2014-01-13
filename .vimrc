@@ -36,7 +36,7 @@ set shell=bash
 " http://www.shallowsky.com/linux/noaltscreen.html
 " set t_ti= t_te=
 " keep more context when scrolling off the end of a buffer
-set scrolloff=3
+" set scrolloff=20
 " Store temporary files in a central spot
 set backup
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
@@ -72,12 +72,12 @@ augroup vimrcEx
     \ endif
 
   "for ruby, autoindent with two spaces, always expand tabs
-  autocmd! BufRead,BufNewFile *.coffee setlocal ft=coffeescript 
+  " autocmd! BufRead,BufNewFile *.coffee setlocal ft=coffeescript 
   " autocmd! BufRead,BufNewFile *.js setlocal ft=js
   " autocmd! FileType js :setlocal ai sw=2 ts=2 sts=2
 
-  autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber,coffeescript set ai sw=2 sts=2 et
-  autocmd FileType python set sw=2 sts=2 et
+  autocmd FileType ruby,haml,eruby,yaml,html,javascript,js,sass,cucumber,coffeescript set ai sw=2 sts=2 et
+  autocmd FileType python set sw=4 sts=4 et
 
   autocmd! BufRead,BufNewFile *.sass setfiletype sass 
 
@@ -306,7 +306,7 @@ nnoremap <leader>. :call OpenTestAlternate()<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RUNNING SIMPLE HTTP SERVER IN CURRENT DIRECTORY
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! RunDjango()
+function! DjangoRunserver()
   :w
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
@@ -314,13 +314,10 @@ function! RunDjango()
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :!python manage.py runserver 0.0.0.0:8000
+  :!python manage.py runserver
 endfunction
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" RUNNING SIMPLE HTTP SERVER IN CURRENT DIRECTORY
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! RunHTTPServer()
+function! DjangoSyncDB()
   :w
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
@@ -328,15 +325,25 @@ function! RunHTTPServer()
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :!python -m SimpleHTTPServer
+  :!python manage.py syncdb
 endfunction
 
+function! DjangoTest()
+  :w
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+  :!python manage.py test
+endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RUNNING TESTS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <leader>t :call RunTestFile()<cr>
-map <leader>T :call RunTestFileAsSudo()<cr>
-map <leader>a :call RunTests('')<cr>
+map <leader>t :call DjangoTest()<cr>
+map <leader>s :call DjangoSyncDB()<cr>
+map <leader>r :call DjangoRunserver()<cr>
 map <leader>c :w\|:!script/features<cr>
 map <leader>w :w\|:!script/features --profile wip<cr>
 map <leader>ss :call CheckSVNStatus()<cr>
@@ -475,16 +482,21 @@ noremap <C-k> 15k<cr>
 " Mapping for JavaScript coding
 " Randy Morris' mapping suggestion
 " from StackOverflow
-inoremap {<cr> {<cr>}<c-o>O<tab>
-inoremap [<cr> [<cr>]<c-o>O<tab>
-inoremap (<cr> (<cr>)<c-o>O<tab>
+" inoremap {<cr> {<cr>}<c-o>O<tab>
+" inoremap [<cr> [<cr>]<c-o>O<tab>
+" inoremap (<cr> (<cr>)<c-o>O<tab>
 
 " Russian Keymap
 " http://habrahabr.ru/post/98393/
-set keymap=russian-jcukenwin
+" set keymap=russian-jcukenwin
+set keymap=uzbek-keymap
 set iminsert=0
 set imsearch=0
 highlight lCursor guifg=NONE guibg=Cyan
 nmap f f<space>
 vmap f f<space>
 nmap <C-i> i_<esc>r
+command WQ wq
+command Wq wq
+command W w
+command Q q

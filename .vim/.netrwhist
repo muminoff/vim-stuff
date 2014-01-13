@@ -1,5 +1,2 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/home/muminoff/nodejs-vagrant/cookbooks/vagrant_main/recipes'
-let g:netrw_dirhist_2='/home/muminoff/vim-stuff/.vim/bundle/vim-coffee-script/after'
-let g:netrw_dirhist_3='/home/muminoff/vim-stuff/.vim/bundle/vim-coffee-script/after/syntax'
+let g:netrw_dirhist_cnt =0
