@@ -1,4 +1,3 @@
-" This is Gary Bernhardt's .vimrc file
 " vim:set ts=2 sts=2 sw=2 expandtab:
 
 runtime bundle/vim-pathogen/autoload/pathogen.vim
@@ -97,13 +96,10 @@ augroup vimrcEx
   
   " Set syntax and highlight for template files same as html files
   au BufNewFile,BufRead *.tpl :set ft=html
-  
-  " Reload browser on save 
-  " Very useful for web development, 
-  " comment bottom line if you don't need it :)
-  autocmd VimEnter,BufNewFile,BufReadpost,BufRead *.py,*.html,*.tpl,*.css,*.js silent! FirefoxReloadStart
+  au BufNewFile,BufRead *.less :set ft=css
 
 augroup END
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOR
@@ -487,8 +483,8 @@ inoremap <left> <nop>
 vnoremap <right> <nop>
 vnoremap <left> <nop>
 inoremap <right> <nop>
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-match OverLength /\%81v.\+/
+" highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+" match OverLength /\%81v.\+/
 noremap <C-j> 15j<cr>
 noremap <C-k> 15k<cr>
 " Mapping for JavaScript coding
@@ -512,3 +508,45 @@ command WQ wq
 command Wq wq
 command W w
 command Q q
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TRANSLATE
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! TranslateSelectionToEnglish()
+python << EOF
+import vim
+from translate import Translator
+def _my_translate(word):
+    translator = Translator(to_lang='en')
+    translation = translator.translate(word)
+    return translation
+EOF
+endfunction
+command -nargs=* MyCommand :python (<f-args>)
+map <leader>v :call TranslateSelectionToEnglish()<cr>
+
+" function! GetVisualSelection()
+"   let [lnum1, col1] = getpos("'<")[1:2]
+"   let [lnum2, col2] = getpos("'>")[1:2]
+"   let lines = getline(lnum1, lnum2)
+"   let lines[-1] = lines[-1][: col2 - 2]
+"   let lines[0] = lines[0][col1 - 1:]
+"   return join(lines, "\n")
+" endfunction
+"
+" fugitive git bindings
+" http://www.reddit.com/r/vim/comments/21f4gm/best_workflow_when_using_fugitive/
+nnoremap <leader>ga :Git add %:p<CR><CR>
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gc :Gcommit -v -q<CR>
+nnoremap <leader>gt :Gcommit -v -q %:p<CR>
+nnoremap <leader>gd :Gdiff<CR>
+nnoremap <leader>ge :Gedit<CR>
+nnoremap <leader>gr :Gread<CR>
+nnoremap <leader>gw :Gwrite<CR><CR>
+nnoremap <leader>gl :silent! Glog<CR>:bot copen<CR>
+nnoremap <leader>gp :Ggrep<Space>
+nnoremap <leader>gm :Gmove<Space>
+nnoremap <leader>gb :Git branch<Space>
+nnoremap <leader>go :Git checkout<Space>
+nnoremap <leader>gps :! git push<CR>
+nnoremap <leader>gpl :! git pull<CR>

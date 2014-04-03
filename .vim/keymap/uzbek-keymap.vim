@@ -1,15 +1,9 @@
-" Vim Keymap file for russian characters, layout 'jcuken', MS Windows variant
-" (slightly incompatible with XFree86 'ru' keymap - makes use of NUMERO SIGN)
-" Useful mainly with utf-8 but may work with other encodings
-
-" Maintainer:   Artem Chuprina <ran@ran.pp.ru>
-" Last Changed: 2001 Jun 23
-
-" All characters are given literally, conversion to another encoding (e.g.,
-" UTF-8) should work.
+" Vim Keymap file for uzbek characters
+" Maintainer:   Sardor Muminov
+"
 scriptencoding utf-8
 
-let b:keymap_name = "ru"
+let b:keymap_name = "uz"
 
 loadkeymap
 ~	Ё	CYRILLIC CAPITAL LETTER IO
@@ -71,17 +65,17 @@ a	ф	CYRILLIC SMALL LETTER EF
 w	ц	CYRILLIC SMALL LETTER TSE
 x	ч	CYRILLIC SMALL LETTER CHE
 i	ш	CYRILLIC SMALL LETTER SHA
-o	ў	CYRILLIC SMALL LETTER SHCHA
+o	ў	CYRILLIC SMALL LETTER O'
 ]	ъ	CYRILLIC SMALL LETTER HARD SIGN
-s	қ	CYRILLIC SMALL LETTER YERU
+s	қ	CYRILLIC SMALL LETTER QH
 m	ь	CYRILLIC SMALL LETTER SOFT SIGN
 '	э	CYRILLIC SMALL LETTER E
 .	ю	CYRILLIC SMALL LETTER YU
 z	я	CYRILLIC SMALL LETTER YA
--	ғ	CYRILLIC SMALL LETTER YA
-_	Ғ	CYRILLIC SMALL LETTER YA
-=	ҳ	CYRILLIC SMALL LETTER YA
-+	Ҳ	CYRILLIC SMALL LETTER YA
+-	ғ	CYRILLIC SMALL LETTER GHE
+_	Ғ	CYRILLIC SMALL LETTER GHE
+=	ҳ	CYRILLIC SMALL LETTER HE
++	Ҳ	CYRILLIC SMALL LETTER HE
 @	"
 #	№	NUMERO SIGN
 $	;
