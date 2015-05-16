@@ -1,7 +1,7 @@
 " vim:set ts=2 sts=2 sw=2 expandtab:
 
 runtime bundle/vim-pathogen/autoload/pathogen.vim
-call pathogen#runtime_append_all_bundles()
+call pathogen#infect()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " BASIC EDITING CONFIGURATION
@@ -71,14 +71,18 @@ augroup vimrcEx
     \ endif
 
   "for ruby, autoindent with two spaces, always expand tabs
-  " autocmd! BufRead,BufNewFile *.coffee setlocal ft=coffeescript 
-  " autocmd! BufRead,BufNewFile *.js setlocal ft=js
-  " autocmd! FileType js :setlocal ai sw=2 ts=2 sts=2
+  autocmd! BufRead,BufNewFile *.coffee setlocal ft=coffeescript 
+  autocmd! BufRead,BufNewFile *.js setlocal ft=javascript
+  autocmd! FileType js :setlocal ai sw=2 ts=2 sts=2
 
   autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber,coffeescript set ai sw=2 sts=2 et
   autocmd FileType python set sw=4 sts=4 et
 
   autocmd! BufRead,BufNewFile *.sass setfiletype sass 
+  autocmd! BufRead,BufNewFile *.conf setfiletype yaml 
+  autocmd! BufRead,BufNewFile *.wsgi setfiletype python
+  autocmd! BufRead,BufNewFile *.tac setfiletype python
+  autocmd! BufRead,BufNewFile *.conf setfiletype javascript
 
   autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:&gt;
   autocmd BufRead *.markdown  set ai formatoptions=tcroqn2 comments=n:&gt;
@@ -97,6 +101,7 @@ augroup vimrcEx
   " Set syntax and highlight for template files same as html files
   au BufNewFile,BufRead *.tpl :set ft=html
   au BufNewFile,BufRead *.less :set ft=css
+  au BufNewFile,BufRead *.tac :set ft=python
 
 augroup END
 
@@ -106,7 +111,9 @@ augroup END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 :set t_Co=256 " 256 colors
 :set background=dark
+" :color badwolf
 :color grb256
+" colorscheme spacegray
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " STATUS LINE
@@ -178,19 +185,6 @@ endfunction
 map <leader>n :call RenameFile()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" PROMOTE VARIABLE TO RSPEC LET
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! PromoteToLet()
-  :normal! dd
-  " :exec '?^\s*it\>'
-  :normal! P
-  :.s/\(\w\+\) = \(.*\)$/let(:\1) { \2 }/
-  :normal ==
-endfunction
-:command! PromoteToLet :call PromoteToLet()
-:map <leader>p :PromoteToLet<cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " EXTRACT VARIABLE (SKETCHY)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! ExtractVariable()
@@ -241,136 +235,11 @@ endfunction
 " MAPS TO JUMP TO SPECIFIC COMMAND-T TARGETS AND FILES
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <leader>gr :topleft :split test-backend<cr>
-function! ShowRoutes()
-  " Requires 'scratch' plugin
-  :topleft 100 :split __Routes__
-  " Make sure Vim doesn't write __Routes__ as a file
-  :set buftype=nofile
-  " Delete everything
-  :normal 1GdG
-  " Put routes output in buffer
-  :0r! rake -s routes
-  " Size window to number of lines (1 plus rake output length)
-  :exec ":normal " . line("$") . "_ "
-  " Move cursor to bottom
-  :normal 1GG
-  " Delete empty trailing line
-  :normal dd
-endfunction
-map <leader>gR :call ShowRoutes()<cr>
-map <leader>gb :CommandTFlush<cr>\|:CommandT backend<cr>
-map <leader>gf :CommandTFlush<cr>\|:CommandT frontend<cr>
-map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
-map <leader>gc :CommandTFlush<cr>\|:CommandT /home/sardor/Testenv.ifs3/trunk<cr>
-map <leader>gj :CommandTFlush<cr>\|:CommandT frontend/js<cr>
-map <leader>gs :CommandTFlush<cr>\|:CommandT frontend/css<cr>
-map <leader>gg :topleft 100 :split README.txt<cr>
-map <leader>gt :CommandTFlush<cr>\|:CommandTTag<cr>
-map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
-map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" SWITCH BETWEEN TEST AND PRODUCTION CODE
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! OpenTestAlternate()
-  let new_file = AlternateForCurrentFile()
-  exec ':e ' . new_file
-endfunction
-function! AlternateForCurrentFile()
-  let current_file = expand("%")
-  let new_file = current_file
-  let in_spec = match(current_file, '^spec/') != -1
-  let going_to_spec = !in_spec
-  let in_app = match(current_file, '\<controllers\>') != -1 || match(current_file, '\<models\>') != -1 || match(current_file, '\<views\>') != -1 || match(current_file, '\<helpers\>') != -1
-  if going_to_spec
-    if in_app
-      let new_file = substitute(new_file, '^app/', '', '')
-    end
-    let new_file = substitute(new_file, '\.rb$', '_spec.rb', '')
-    let new_file = 'spec/' . new_file
-  else
-    let new_file = substitute(new_file, '_spec\.rb$', '.rb', '')
-    let new_file = substitute(new_file, '^spec/', '', '')
-    if in_app
-      let new_file = 'app/' . new_file
-    end
-  endif
-  return new_file
-endfunction
-nnoremap <leader>. :call OpenTestAlternate()<cr>
+map <leader>x :FZF! ./<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RUNNING Django HTTP Server
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! DjangoRunserver()
-  :w
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :!python manage.py runserver
-endfunction
-
-function! DjangoSyncDB()
-  :w
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :!python manage.py syncdb
-endfunction
-
-function! DjangoTest()
-  :w
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :!python manage.py test
-endfunction
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" RUNNING TESTS
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <leader>t :call DjangoTestRun()<cr>
-map <leader>T :call RunTestFileAsSudo()<cr>
-map <leader>s :call DjangoSyncDB()<cr>
-map <leader>r :call DjangoRunServer()<cr>
-map <leader>c :w\|:!script/features<cr>
-map <leader>w :w\|:!script/features --profile wip<cr>
-map <leader>ss :call CheckSVNStatus()<cr>
-map <leader>su :call UpdateSVNCode()<cr>
-map <leader>sc :call CommitSVNChanges()<cr>
-map <leader><F2> :call RunHTTPServer()<cr>
-map <leader>m :call RunDjango()<cr>
-
-function! DjangoTestRun()
-  :w
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :!python manage.py test
-endfunction
-
-function! DjangoSyncDB()
-  :w
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :!python manage.py syncdb
-endfunction
-
 function! DjangoRunServer()
   :w
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
@@ -381,97 +250,8 @@ function! DjangoRunServer()
   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
   :!python manage.py runserver
 endfunction
+map <leader>r :call DjangoRunServer()<cr>
 
-function! SetTestFile()
-    " Set the spec file that tests will be run for.
-    let t:grb_test_file=@%
-endfunction
-
-function! RunTests(filename)
-    " Write the file and run tests for the given filename
-    :w
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    if match(a:filename, '\.feature$') != -1
-        exec ":!script/features " . a:filename
-    else
-        if filereadable("script/test")
-            exec ":!script/test " . a:filename
-        elseif filereadable("Gemfile")
-            exec ":!bundle exec rspec --color " . a:filename
-        else
-            exec ":!rspec --color " . a:filename
-        end
-    end
-endfunction
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" SVN COMMANDS
-"
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""'"""
-function! CheckSVNStatus()
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :!svn status
-endfunction
-
-function! UpdateSVNCode()
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :!svn up
-endfunction
-
-function CommitSVNChanges()
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-  let mymsg = input('Commit message: ')
-  if mymsg != ''
-    exec '!svn commit -m "' . mymsg . '"'
-  endif
-endfunction
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Md5 COMMAND
-" Show the MD5 of the current buffer
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-command! -range Md5 :echo system('echo '.shellescape(join(getline(<line1>, <line2>), '\n')) . '| md5')
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" OpenChangedFiles COMMAND
-" Open a split for each dirty file in git
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! OpenChangedFiles()
-  only " Close all windows, unless they're modified
-  let status = system('git status -s | grep "^ \?\(M\|A\|UU\)" | sed "s/^.\{3\}//"')
-  let filenames = split(status, "\n")
-  exec "edit " . filenames[0]
-  for filename in filenames[1:]
-    exec "sp " . filename
-  endfor
-endfunction
-command! OpenChangedFiles :call OpenChangedFiles()
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" InsertTime COMMAND
-" Insert the current time
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-command! InsertTime :normal a<c-r>=strftime('%F %H:%M:%S.0 %z')<cr>
 set number
 set pastetoggle=<F2>
 set noswapfile
@@ -483,16 +263,10 @@ inoremap <left> <nop>
 vnoremap <right> <nop>
 vnoremap <left> <nop>
 inoremap <right> <nop>
-" highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-" match OverLength /\%81v.\+/
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
 noremap <C-j> 15j<cr>
 noremap <C-k> 15k<cr>
-" Mapping for JavaScript coding
-" Randy Morris' mapping suggestion
-" from StackOverflow
-" inoremap {<cr> {<cr>}<c-o>O<tab>
-" inoremap [<cr> [<cr>]<c-o>O<tab>
-" inoremap (<cr> (<cr>)<c-o>O<tab>
 
 " Russian Keymap
 " http://habrahabr.ru/post/98393/
@@ -508,45 +282,7 @@ command WQ wq
 command Wq wq
 command W w
 command Q q
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" TRANSLATE
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! TranslateSelectionToEnglish()
-python << EOF
-import vim
-from translate import Translator
-def _my_translate(word):
-    translator = Translator(to_lang='en')
-    translation = translator.translate(word)
-    return translation
-EOF
-endfunction
-command -nargs=* MyCommand :python (<f-args>)
-map <leader>v :call TranslateSelectionToEnglish()<cr>
 
-" function! GetVisualSelection()
-"   let [lnum1, col1] = getpos("'<")[1:2]
-"   let [lnum2, col2] = getpos("'>")[1:2]
-"   let lines = getline(lnum1, lnum2)
-"   let lines[-1] = lines[-1][: col2 - 2]
-"   let lines[0] = lines[0][col1 - 1:]
-"   return join(lines, "\n")
-" endfunction
-"
-" fugitive git bindings
-" http://www.reddit.com/r/vim/comments/21f4gm/best_workflow_when_using_fugitive/
-nnoremap <leader>ga :Git add %:p<CR><CR>
-nnoremap <leader>gs :Gstatus<CR>
-nnoremap <leader>gc :Gcommit -v -q<CR>
-nnoremap <leader>gt :Gcommit -v -q %:p<CR>
-nnoremap <leader>gd :Gdiff<CR>
-nnoremap <leader>ge :Gedit<CR>
-nnoremap <leader>gr :Gread<CR>
-nnoremap <leader>gw :Gwrite<CR><CR>
-nnoremap <leader>gl :silent! Glog<CR>:bot copen<CR>
-nnoremap <leader>gp :Ggrep<Space>
-nnoremap <leader>gm :Gmove<Space>
-nnoremap <leader>gb :Git branch<Space>
-nnoremap <leader>go :Git checkout<Space>
-nnoremap <leader>gps :! git push<CR>
-nnoremap <leader>gpl :! git pull<CR>
+set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %{noscrollbar#statusline()}
+set wildignore+=frontend/node_modules/*,frontend/app/bower_components/*
+set rtp+=~/.fzf
