@@ -109,16 +109,14 @@ augroup END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOR
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-:set t_Co=256 " 256 colors
-:set background=dark
-" :color badwolf
-:color grb256
-" colorscheme spacegray
+set t_Co=256 " 256 colors
+set background=dark
+color grb256
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " STATUS LINE
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-:set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
+" :set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MISC KEY MAPS
@@ -235,7 +233,7 @@ endfunction
 " MAPS TO JUMP TO SPECIFIC COMMAND-T TARGETS AND FILES
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <leader>gr :topleft :split test-backend<cr>
-map <leader>x :FZF! ./<cr>
+map <leader>f :FZF! ./<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RUNNING Django HTTP Server
@@ -283,6 +281,11 @@ command Wq wq
 command W w
 command Q q
 
-set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %{noscrollbar#statusline()}
+" set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %{noscrollbar#statusline()}
 set wildignore+=frontend/node_modules/*,frontend/app/bower_components/*
 set rtp+=~/.fzf
+" For MacVim
+set guifont=PragmataPro:h12
+set gcr=a:blinkon0
+set go-=T
+set ruler
