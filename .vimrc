@@ -78,15 +78,18 @@ augroup vimrcEx
   autocmd! BufRead,BufNewFile *.wsgi setfiletype python
   autocmd! BufRead,BufNewFile *.tac setfiletype python
 
-  autocmd FileType python highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-  autocmd FileType python match OverLength /\%81v.\+/
-  autocmd BufRead,BufNewFile *.py highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-  autocmd BufRead,BufNewFile python match OverLength /\%81v.\+/
+  " autocmd FileType python highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+  " autocmd FileType python match OverLength /\%81v.\+/
+  " autocmd BufRead,BufNewFile *.py highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+  " autocmd BufRead,BufNewFile python match OverLength /\%81v.\+/
 
   " Leave the return key alone when in command line windows, since it's used
   " to run commands there.
   autocmd! CmdwinEnter * :unmap <cr>
   autocmd! CmdwinLeave * :call MapCR()
+
+  " postgresql
+  autocmd BufNewFile,BufRead *.sql setf pgsql
   
 augroup END
 
@@ -96,7 +99,7 @@ augroup END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set t_Co=256 " 256 colors
 set background=dark
-color grb256
+color gotham
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MISC KEY MAPS
